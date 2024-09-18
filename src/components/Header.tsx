@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa"
 import todolist from "../assets/todolist.png"
 import { useAuth } from "../contexts/AuthContext"
+import toast from "react-hot-toast"
 
 const Header = () => {
   const { logout, isAuthenticated } = useAuth()
@@ -11,7 +12,8 @@ const Header = () => {
 
   const handleLogout = () => {
     logout()
-    navigate("/login")
+    toast.success("logout successful")
+    navigate("/")
   }
 
   const toggleMenu = () => {
