@@ -127,127 +127,138 @@ function TodoList() {
     }
   }
 
-  const handleLogout = () => {
-    logout()
-    navigate("/login")
-  }
-
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="container p-4 w-1/2 bg-gray-100 rounded-lg shadow-lg mt-10">
-        <div className="flex items-center mb-10">
-          <img src={todolist} alt="Todo List" className="mr-4 w-16 h-16" />
-          <h1 className="text-2xl font-bold text-purple-700">Todo List</h1>
+    <div className="flex items-start justify-center min-h-screen bg-gray-100 p-4">
+      <div className="container max-w-4xl w-full bg-white rounded-lg shadow-lg mt-4 sm:mt-8">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <div className="flex items-center">
+            <img
+              src={todolist}
+              alt="Todo List"
+              className="w-10 h-10 sm:w-12 sm:h-12 mr-3"
+            />
+            <h1 className="text-xl sm:text-2xl font-bold text-purple-700">
+              Todo List
+            </h1>
+          </div>
         </div>
-        <form onSubmit={addTodo} className="mb-10 flex max-w-lg mx-auto">
-          <input
-            type="text"
-            className="border border-purple-400 p-2 mr-2 flex-1 max-w-xs rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
-            value={newTodo.title}
-            onChange={(e) => setNewTodo({ ...newTodo, title: e.target.value })}
-            placeholder="Todo title"
-          />
-          <input
-            type="text"
-            className="border border-purple-400 p-2 mr-2 flex-1 max-w-xs rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
-            value={newTodo.description}
-            onChange={(e) =>
-              setNewTodo({ ...newTodo, description: e.target.value })
-            }
-            placeholder="Todo description"
-          />
-          <button
-            type="submit"
-            className="bg-purple-600 text-white p-2 rounded"
+        <div className="p-4">
+          <form
+            onSubmit={addTodo}
+            className="mb-6 flex flex-col sm:flex-row gap-2"
           >
-            <FaPlus />
-          </button>
-        </form>
-        <ul>
-          {todos.map((todo) => (
-            <li
-              key={todo.id}
-              className="mb-2 p-2 border border-gray-300 flex items-center justify-between bg-white rounded-lg shadow-md"
+            <input
+              type="text"
+              className="border border-purple-400 p-2 flex-1 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              value={newTodo.title}
+              onChange={(e) =>
+                setNewTodo({ ...newTodo, title: e.target.value })
+              }
+              placeholder="Todo title"
+            />
+            <input
+              type="text"
+              className="border border-purple-400 p-2 flex-1 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              value={newTodo.description}
+              onChange={(e) =>
+                setNewTodo({ ...newTodo, description: e.target.value })
+              }
+              placeholder="Todo description"
+            />
+            <button
+              type="submit"
+              className="bg-purple-600 text-white p-2 rounded w-full sm:w-auto"
             >
-              {editingTodo?.id === todo.id ? (
-                <form onSubmit={handleUpdate} className="flex flex-1">
-                  <input
-                    type="text"
-                    className="border border-purple-400 p-2 mr-2 flex-1 rounded-md"
-                    value={editingTodo.title}
-                    onChange={(e) =>
-                      setEditingTodo({
-                        ...editingTodo,
-                        title: e.target.value,
-                      })
-                    }
-                  />
-                  <input
-                    type="text"
-                    className="border border-purple-400 p-2 mr-2 flex-1 rounded-md"
-                    value={editingTodo.description}
-                    onChange={(e) =>
-                      setEditingTodo({
-                        ...editingTodo,
-                        description: e.target.value,
-                      })
-                    }
-                  />
-                  <button
-                    type="submit"
-                    className="bg-green-500 text-white p-2 rounded"
+              <FaPlus className="inline mr-1" /> Add Todo
+            </button>
+          </form>
+          <ul className="space-y-2">
+            {todos.map((todo) => (
+              <li
+                key={todo.id}
+                className="p-2 border border-gray-300 flex flex-col sm:flex-row items-center justify-between bg-white rounded-lg shadow-sm"
+              >
+                {editingTodo?.id === todo.id ? (
+                  <form
+                    onSubmit={handleUpdate}
+                    className="flex flex-col sm:flex-row gap-2 w-full"
                   >
-                    <FaCheck />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditingTodo(null)}
-                    className="bg-red-500 text-white p-2 rounded ml-2"
-                  >
-                    <FaTimes />
-                  </button>
-                </form>
-              ) : (
-                <div className="flex items-center justify-between flex-1">
-                  <div>
-                    <strong className="text-gray-800">{todo.title}</strong> -{" "}
-                    {todo.description}
-                  </div>
-                  <div>
-                    <button
-                      onClick={() =>
-                        updateTodo(todo.id, { isCompleted: !todo.isCompleted })
+                    <input
+                      type="text"
+                      className="border border-purple-400 p-2 flex-1 rounded-md"
+                      value={editingTodo.title}
+                      onChange={(e) =>
+                        setEditingTodo({
+                          ...editingTodo,
+                          title: e.target.value,
+                        })
                       }
-                      className={`${
-                        todo.isCompleted ? "bg-green-500" : "bg-yellow-500"
-                      } text-white p-1 rounded mr-2`}
-                    >
-                      {todo.isCompleted ? "Mark Undone" : "Mark Done"}
-                    </button>
-                    <button
-                      onClick={() => handleEdit(todo)}
-                      className="bg-purple-600 text-white p-1 rounded mr-2"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      onClick={() => deleteTodo(todo.id)}
-                      className="bg-red-500 text-white p-1 rounded"
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-        <button
-          onClick={handleLogout}
-          className="bg-gray-500 text-white p-2 rounded mt-4"
-        >
-          Logout
-        </button>
+                    />
+                    <input
+                      type="text"
+                      className="border border-purple-400 p-2 flex-1 rounded-md"
+                      value={editingTodo.description}
+                      onChange={(e) =>
+                        setEditingTodo({
+                          ...editingTodo,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                    <div className="flex gap-2 mt-2 sm:mt-0">
+                      <button
+                        type="submit"
+                        className="bg-green-500 text-white p-2 rounded"
+                      >
+                        <FaCheck />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingTodo(null)}
+                        className="bg-red-500 text-white p-2 rounded"
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <>
+                    <div className="flex-1 mb-2 sm:mb-0">
+                      <strong className="text-gray-800">{todo.title}</strong> -{" "}
+                      {todo.description}
+                    </div>
+                    <div className="flex gap-2 flex-wrap justify-center sm:justify-end">
+                      <button
+                        onClick={() =>
+                          updateTodo(todo.id, {
+                            isCompleted: !todo.isCompleted,
+                          })
+                        }
+                        className={`${
+                          todo.isCompleted ? "bg-green-500" : "bg-yellow-500"
+                        } text-white p-1 rounded`}
+                      >
+                        {todo.isCompleted ? "Mark Undone" : "Mark Done"}
+                      </button>
+                      <button
+                        onClick={() => handleEdit(todo)}
+                        className="bg-purple-600 text-white p-1 rounded"
+                      >
+                        <FaEdit />
+                      </button>
+                      <button
+                        onClick={() => deleteTodo(todo.id)}
+                        className="bg-red-500 text-white p-1 rounded"
+                      >
+                        <FaTrashAlt />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )

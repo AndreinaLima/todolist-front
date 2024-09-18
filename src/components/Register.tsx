@@ -18,63 +18,75 @@ function Register() {
       toast.success("Registration successful! Please log in.")
       navigate("/login")
     } catch (err) {
-      setError("Registration failed") // Atualiza o estado de erro
+      setError("Registration failed")
       toast.error("Registration failed")
     }
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div
-        className="px-8 py-10 mt-4 text-left bg-gray-800 rounded-lg shadow-custom"
-        style={{ width: "400px" }}
-      >
-        <h3 className="text-2xl font-bold text-center text-white">
-          Create an account
-        </h3>
-        <form onSubmit={handleSubmit}>
-          <div className="mt-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white shadow-custom rounded-lg px-6 py-8 sm:px-8 sm:py-10">
+          <h3 className="text-xl sm:text-2xl font-bold text-center text-purple-700 mb-6">
+            Create an account
+          </h3>
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-gray-300" htmlFor="username">
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="username"
+              >
                 Username
               </label>
               <input
+                id="username"
                 type="text"
                 placeholder="Username"
-                className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-400 bg-gray-700 text-white"
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
-            <div className="mt-4">
-              <label className="block text-gray-300">Password</label>
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="password"
+              >
+                Password
+              </label>
               <input
+                id="password"
                 type="password"
                 placeholder="Password"
-                className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-400 bg-gray-700 text-white"
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
-            <div className="flex items-baseline justify-between">
-              <button className="px-6 py-2 mt-4 text-white bg-purple-600 rounded-lg hover:bg-purple-800">
+            <div>
+              <button
+                type="submit"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              >
                 Register
               </button>
             </div>
-          </div>
-        </form>
-        {error && <p className="text-red-500 mt-4">{error}</p>}
-        <p className="mt-4 text-sm text-center text-gray-300">
-          Already have an account?
-          <button
-            onClick={() => navigate("/login")}
-            className="ml-1 text-purple-400 hover:underline"
-          >
-            Login
-          </button>
-        </p>
+          </form>
+          {error && (
+            <p className="mt-4 text-sm text-center text-red-500">{error}</p>
+          )}
+          <p className="mt-6 text-sm text-center text-gray-600">
+            Already have an account?{" "}
+            <button
+              onClick={() => navigate("/login")}
+              className="font-medium text-purple-600 hover:text-purple-500"
+            >
+              Login
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   )
