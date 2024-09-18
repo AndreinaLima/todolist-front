@@ -2,7 +2,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
 } from "react-router-dom"
 import Login from "./components/Login"
 import Register from "./components/Register"
@@ -10,13 +9,17 @@ import TodoList from "./components/TodoList"
 import ProtectedRoute from "./components/ProtectedRoute"
 import { AuthProvider } from "./contexts/AuthContext"
 import { Toaster } from "react-hot-toast"
+import Home from "./components/Home"
+import Header from "./components/Header"
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <div className="min-h-screen bg-gray-100">
+          <Header />
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route
@@ -27,7 +30,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/" element={<Navigate to="/todos" replace />} />
           </Routes>
         </div>
         <Toaster />
