@@ -13,7 +13,7 @@ interface Todo {
   isCompleted: boolean
 }
 
-const API_URL = "http://localhost:3000/todos"
+const API_URL = import.meta.env.VITE_API_URL + "/todos"
 
 function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([])

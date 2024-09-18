@@ -18,6 +18,7 @@ function Register() {
       toast.success("Registration successful! Please log in.")
       navigate("/login")
     } catch (err) {
+      setError("Registration failed") // Atualiza o estado de erro
       toast.error("Registration failed")
     }
   }

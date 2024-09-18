@@ -25,6 +25,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   )
   const [loading, setLoading] = useState<boolean>(true)
 
+  const apiUrl = import.meta.env.VITE_API_URL // Usa a variável de ambiente
+
   const checkAuthStatus = async () => {
     setLoading(true)
     const storedToken = localStorage.getItem("token")
@@ -32,12 +34,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const storedUserId = localStorage.getItem("userId")
     if (storedToken && storedUsername && storedUserId) {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/auth/validate",
-          {
-            headers: { Authorization: `Bearer ${storedToken}` },
-          }
-        )
+        const response = await axios.get(`${apiUrl}/auth/validate`, {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        })
         if (response.status === 200) {
           console.log("Token is valid")
           setIsAuthenticated(true)
@@ -72,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const register = async (username: string, password: string) => {
     try {
-      await axios.post("http://localhost:3000/users/register", {
+      await axios.post(`${apiUrl}/users/register`, {
         username,
         password,
       })
@@ -83,7 +82,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
+      const response = await axios.post(`${apiUrl}/auth/login`, {
         username,
         password,
       })
