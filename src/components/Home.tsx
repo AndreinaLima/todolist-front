@@ -4,7 +4,7 @@ import todolist from "../assets/todolist.png"
 
 const Home = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="mt-20 flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-md">
         <div className="text-center">
           <img
