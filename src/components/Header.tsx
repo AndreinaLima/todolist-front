@@ -12,7 +12,7 @@ const Header = () => {
 
   const handleLogout = () => {
     logout()
-    toast.success("logout successful")
+    toast.success("Logout successful")
     navigate("/")
   }
 
@@ -35,13 +35,21 @@ const Header = () => {
               Home
             </Link>
             {isAuthenticated && (
-              <button
-                onClick={handleLogout}
-                className="flex items-center bg-slate-600 hover:bg-slate-700 text-white px-3 py-2 rounded transition duration-300"
-              >
-                <FaSignOutAlt className="mr-2" />
-                Logout
-              </button>
+              <>
+                <Link
+                  to="/todos"
+                  className="text-gray-600 hover:text-gray-900 mr-4"
+                >
+                  Todos
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center bg-slate-600 hover:bg-slate-700 text-white px-3 py-2 rounded transition duration-300"
+                >
+                  <FaSignOutAlt className="mr-2" />
+                  Logout
+                </button>
+              </>
             )}
           </div>
           <div className="sm:hidden">
@@ -65,16 +73,25 @@ const Header = () => {
               Home
             </Link>
             {isAuthenticated && (
-              <button
-                onClick={() => {
-                  handleLogout()
-                  toggleMenu()
-                }}
-                className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-              >
-                <FaSignOutAlt className="inline mr-2" />
-                Logout
-              </button>
+              <>
+                <Link
+                  to="/todos"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={toggleMenu}
+                >
+                  Todos
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout()
+                    toggleMenu()
+                  }}
+                  className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                >
+                  <FaSignOutAlt className="inline mr-2" />
+                  Logout
+                </button>
+              </>
             )}
           </div>
         </div>
