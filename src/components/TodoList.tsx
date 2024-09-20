@@ -3,7 +3,14 @@ import axios from "axios"
 import { useAuth } from "../contexts/AuthContext"
 import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
-import { FaPlus, FaEdit, FaTrashAlt, FaCheck, FaTimes } from "react-icons/fa"
+import {
+  FaPlus,
+  FaEdit,
+  FaTrashAlt,
+  FaCheck,
+  FaTimes,
+  FaClock,
+} from "react-icons/fa"
 import todolist from "../assets/todolist.png"
 
 interface Todo {
@@ -11,6 +18,7 @@ interface Todo {
   title: string
   description: string
   isCompleted: boolean
+  createdAt: string // Add this line
 }
 
 const API_URL = import.meta.env.VITE_API_URL + "/todos"
@@ -21,6 +29,12 @@ function TodoList() {
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null)
   const { isAuthenticated, token, logout } = useAuth()
   const navigate = useNavigate()
+  const [currentDate, setCurrentDate] = useState(new Date())
+
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentDate(new Date()), 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   const fetchTodos = useCallback(async () => {
     if (!token) return
@@ -127,6 +141,20 @@ function TodoList() {
     }
   }
 
+  const toggleTodoStatus = (todo: Todo) => {
+    updateTodo(todo.id, { isCompleted: !todo.isCompleted })
+  }
+
+  const formatDate = (date: Date | string) => {
+    return new Date(date).toLocaleString("pt-BR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+  }
+
   return (
     <div className="flex items-start justify-center min-h-screen bg-gray-100 p-4">
       <div className="container max-w-4xl w-full bg-white rounded-lg shadow-lg mt-4 sm:mt-8">
@@ -141,6 +169,7 @@ function TodoList() {
               Todo List
             </h1>
           </div>
+          <div className="text-sm text-gray-600">{formatDate(currentDate)}</div>
         </div>
         <div className="p-4">
           <form
@@ -223,23 +252,28 @@ function TodoList() {
                   </form>
                 ) : (
                   <>
-                    <div className="flex-1 mb-2 sm:mb-0">
-                      <strong className="text-gray-800">{todo.title}</strong> -{" "}
-                      {todo.description}
-                    </div>
-                    <div className="flex gap-2 flex-wrap justify-center sm:justify-end">
-                      <button
-                        onClick={() =>
-                          updateTodo(todo.id, {
-                            isCompleted: !todo.isCompleted,
-                          })
+                    <div className="flex items-center flex-1 mb-2 sm:mb-0">
+                      <input
+                        type="checkbox"
+                        checked={todo.isCompleted}
+                        onChange={() => toggleTodoStatus(todo)}
+                        className="mr-2 h-5 w-5 text-purple-600 rounded"
+                      />
+                      <div
+                        className={
+                          todo.isCompleted
+                            ? "line-through text-gray-500"
+                            : "text-gray-800"
                         }
-                        className={`${
-                          todo.isCompleted ? "bg-green-500" : "bg-yellow-500"
-                        } text-white p-1 rounded`}
                       >
-                        {todo.isCompleted ? "Mark Undone" : "Mark Done"}
-                      </button>
+                        <strong>{todo.title}</strong> - {todo.description}
+                      </div>
+                    </div>
+                    <div className="flex gap-2 flex-wrap justify-center sm:justify-end items-center">
+                      <span className="text-sm text-gray-500 flex items-center">
+                        <FaClock className="mr-1" />
+                        {formatDate(todo.createdAt)}
+                      </span>
                       <button
                         onClick={() => handleEdit(todo)}
                         className="bg-purple-600 text-white p-1 rounded"
